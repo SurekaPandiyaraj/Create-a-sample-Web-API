@@ -1,0 +1,28 @@
+{
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/Products",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5214
+                }
+            ],
+            "UpstreamPathTemplate": "/products",
+            "UpstreamHttpMethod": [ "Get" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/Orders",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5068
+                }
+            ],
+            "UpstreamPathTemplate": "/gateway_order",
+            "UpstreamHttpMethod": [ "Get" ]
+        }
+    ]
+}
