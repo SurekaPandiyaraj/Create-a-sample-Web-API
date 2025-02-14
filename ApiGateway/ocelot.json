@@ -9,8 +9,8 @@
                     "Port": 5214
                 }
             ],
-            "UpstreamPathTemplate": "/products",
-            "UpstreamHttpMethod": [ "Get" ]
+            "UpstreamPathTemplate": "/gateway_product",
+            "UpstreamHttpMethod": "*"
         },
         {
             "DownstreamPathTemplate": "/api/Orders",
