@@ -1,28 +1,71 @@
 {
     "Routes": [
         {
-            "DownstreamPathTemplate": "/api/Products",
-            "DownstreamScheme": "http",
+            "DownstreamPathTemplate": "/api/Product/{id}",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
-                    "Port": 5214
+                    "Port": 7011
                 }
             ],
-            "UpstreamPathTemplate": "/gateway_product",
+            "UpstreamPathTemplate": "/products/{id}",
+            "UpstreamHttpMethod": [ "Get" ]
+        },
+
+
+        {
+            "DownstreamPathTemplate": "/api/Product",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7011
+                }
+            ],
+            "UpstreamPathTemplate": "/products",
+            "UpstreamHttpMethod": [ "Get", "Post" ]
+        },
+
+
+
+        {
+            "DownstreamPathTemplate": "/api/Product/create",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7011
+                }
+            ],
+            "UpstreamPathTemplate": "/products/rabitmq",
+            "UpstreamHttpMethod": [ "Get", "Post" ]
+        },
+
+
+        {
+            "DownstreamPathTemplate": "/api/Order/{productId}",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 7180
+                }
+            ],
+            "UpstreamPathTemplate": "/orders/{id}",
             "UpstreamHttpMethod": "*"
         },
         {
-            "DownstreamPathTemplate": "/api/Orders",
-            "DownstreamScheme": "http",
+            "DownstreamPathTemplate": "/api/Order",
+            "DownstreamScheme": "https",
             "DownstreamHostAndPorts": [
                 {
                     "Host": "localhost",
-                    "Port": 5068
+                    "Port": 7180
                 }
             ],
-            "UpstreamPathTemplate": "/gateway_order",
-            "UpstreamHttpMethod": [ "Get" ]
+            "UpstreamPathTemplate": "/orders",
+            "UpstreamHttpMethod": "*"
         }
     ]
 }
