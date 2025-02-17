@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35707.178 d17.12
+VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{C64754AC-A360-4B61-91B2-0E4C778B8CB1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService", "OrderService\OrderService.csproj", "{13F2CF10-A8DB-4F05-82D6-EDC76416F088}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductService", "ProductService\ProductService.csproj", "{D3D58C0A-973C-4F85-8B1E-74B69DFACD7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Contracts", "Common.Contracts\Common.Contracts.csproj", "{224EA3AD-B8F9-47EB-86FC-32AC2E6CEC34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{D3D58C0A-973C-4F85-8B1E-74B69DFACD7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3D58C0A-973C-4F85-8B1E-74B69DFACD7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3D58C0A-973C-4F85-8B1E-74B69DFACD7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{224EA3AD-B8F9-47EB-86FC-32AC2E6CEC34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{224EA3AD-B8F9-47EB-86FC-32AC2E6CEC34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{224EA3AD-B8F9-47EB-86FC-32AC2E6CEC34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{224EA3AD-B8F9-47EB-86FC-32AC2E6CEC34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

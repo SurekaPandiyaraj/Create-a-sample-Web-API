@@ -1,65 +1,77 @@
-﻿using System.Text.Json;
-using System.Text;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace ProductService.Controllers
 {
+    using System.Net.Http;
+    using Common.Contracts;
+    using MassTransit;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using ProductService.Database;
+    using ProductService.Models;
+
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        //private readonly HttpClient _httpClient;
-
-        //public ProductsController(HttpClient httpClient)
-        //{
-        //    _httpClient = httpClient;
-        //}
+        private readonly ProductDbContext _context;
+        private readonly HttpClient _httpClient;
+        private readonly IPublishEndpoint _publishEndpoint;
+        public ProductController(ProductDbContext context, HttpClient httpClient, IPublishEndpoint publishEndpoint)
+        {
+            _context = context;
+            _httpClient = httpClient;
+            _publishEndpoint = publishEndpoint;
+        }
 
         [HttpGet]
-        public IActionResult GetProducts()
+        public async Task<IActionResult> GetProducts()
         {
-            return Ok(new List<string> { "Product1", "Product2" });
+            return Ok(await _context.Products.ToListAsync());
+
         }
+
         [HttpPost]
-        public IActionResult CreateProduct([FromForm] string product)
+        public async Task<IActionResult> AddProduct(Product product)
         {
-            return Ok(new { Message = "Product Created", Product = product });
+            _context.Products.Add(product);
+            var result = await _context.SaveChangesAsync();
+
+            if (result == 1)
+            {
+                return Ok(product);
+            }
+            return Ok("error");
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return Ok(product);
         }
 
-        //[HttpPost("{productId}/create-order")]
-        //public async Task<IActionResult> CreateOrder(int productId,  OrderRequest orderRequest)
-        //{
-        //    if (orderRequest == null || string.IsNullOrEmpty(orderRequest.CustomerName))
-        //    {
-        //        return BadRequest("Invalid order request.");
-        //    }
 
-        //    var order = new
-        //    {
-        //        OrderId = new Random().Next(1000, 9999),
-        //        ProductId = productId,
-        //        CustomerName = orderRequest.CustomerName
-        //    };
 
-        //    var content = new StringContent(JsonSerializer.Serialize(order), Encoding.UTF8, "application/json");
 
-        //    var response = await _httpClient.PostAsync("http://localhost:5068/api/Order", content);
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateProduct(Product product)
+        {
+            await _publishEndpoint.Publish<IProductCreated>(new
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Stock = product.Stock
 
-        //    if (!response.IsSuccessStatusCode)
-        //    {
-        //        return StatusCode((int)response.StatusCode, "Failed to create order.");
-        //    }
+            });
 
-        //    var createdOrder = await response.Content.ReadAsStringAsync();
-        //    return Ok(new { Message = "Order Created", Order = createdOrder });
-        //}
+            return Ok("Product Created and Event Published!");
+        }
     }
 
-    public class OrderRequest
-    {
-        public string CustomerName { get; set; }
-    }
 }
-
